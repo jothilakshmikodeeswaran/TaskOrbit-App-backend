@@ -24,6 +24,10 @@ const employeeSchema = new Schema({
         enum: ['Male', 'Female'],
         required: true,
     },
+    status: {
+        type: String,
+        enum: ['Online', 'Leave','Busy']
+    },
     profilepic: {
         type: String,
     },

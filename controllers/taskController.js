@@ -93,6 +93,25 @@ export const updateTask = async (req, res) => {
   }
 };
 
+// GET /api/tasks - Get all tasks across all projects owned by the logged-in user
+export const getAllTasks = async (req, res) => {
+  try {
+    // Step 1: Find all projects belonging to the logged-in user
+    const userProjects = await Project.find({ user: req.user._id }).select('_id');
+
+    // Step 2: Extract just the project IDs
+    const projectIds = userProjects.map(p => p._id);
+
+    // Step 3: Fetch tasks linked to those project IDs
+    const tasks = await Task.find({ project: { $in: projectIds } });
+
+    res.status(200).json(tasks);
+  } catch (err) {
+    console.error("Get all tasks error:", err);
+    res.status(500).json({ message: 'Error fetching tasks.' });
+  }
+};
+
 //DELETE /api/tasks/:taskId: - Delete a single task
 export const deleteTask = async (req, res) => {
   try {

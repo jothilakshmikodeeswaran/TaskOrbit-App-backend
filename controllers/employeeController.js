@@ -8,6 +8,7 @@ export const createEmployee = async (req, res) => {
       email,
       role,
       sex,
+      status,
       joinedAt
     } = req.body;
     const newEmployee= await Employee.create({
@@ -15,6 +16,7 @@ export const createEmployee = async (req, res) => {
       email,
       role,
       sex,
+      status,
       joinedAt,
       user: req.user._id
     });
