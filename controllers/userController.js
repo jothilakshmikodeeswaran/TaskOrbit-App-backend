@@ -9,15 +9,21 @@ export const registerUser = async (req, res) => {
         const token = signToken(newUser);
         res.status(201).json({ token, user: newUser });
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        if (err.code === 11000 && err.keyValue?.email) {
+            return res.status(400).json({ message: 'Email Already Exists!' });
+        }
+        // if (err.code === 11000) {
+        //   return res.status(400).json({ message: 'Duplicate value detected!' });
+        // }
+
+        if (err.name === "ValidationError") {
+            const messages = Object.values(err.errors).map(e => e.message);
+            console.log(messages[0]);
+            return res.status(400).json({ errors: messages[0] });
+        }
+        res.status(400).json({ error: err.message } || 'Registration failed!');
     }
-//      try {
-//     const user = await User.create(req.body);
-//     const token = signToken(user);
-//     res.status(201).json({ token, user });
-//   } catch (err) {
-//     res.status(400).json(err);
-//   }
+
 };
 
 // POST /api/users/login - Authenticate a user and return a token
@@ -39,22 +45,31 @@ export const loginUser = async (req, res) => {
         const token = signToken(foundUser);
         res.status(200).json({ token, user: foundUser });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+
+        if (err.name === "ValidationError") {
+            const messages = Object.values(err.errors).map(e => e.message);
+            console.log(messages[0]);
+            return res.status(400).json({ errors: messages[0] });
+        }
+        res.status(500).json({ error: err.message } || "Login failed !");
     }
 
 
-//      const user = await User.findOne({ email: req.body.email });
 
-//   if (!user) {
-//     return res.status(400).json({ message: "Can't find this user" });
-//   }
+    // const messages = Object.values(error.errors).map(e => e.message);
+    //   return res.status(400).json({ errors: messages });
+    //      const user = await User.findOne({ email: req.body.email });
 
-//   const correctPw = await user.isCorrectPassword(req.body.password);
+    //   if (!user) {
+    //     return res.status(400).json({ message: "Can't find this user" });
+    //   }
 
-//   if (!correctPw) {
-//     return res.status(400).json({ message: "Wrong password!" });
-//   }
+    //   const correctPw = await user.isCorrectPassword(req.body.password);
 
-//   const token = signToken(user);
-//   res.json({ token, user });
+    //   if (!correctPw) {
+    //     return res.status(400).json({ message: "Wrong password!" });
+    //   }
+
+    //   const token = signToken(user);
+    //   res.json({ token, user });
 };
