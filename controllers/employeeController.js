@@ -3,28 +3,28 @@ import Employee from "../models/Employee.js";
 // Create a new employee
 export const createEmployee = async (req, res) => {
     try {
-    const {
-      name,
-      email,
-      role,
-      sex,
-      status,
-      joinedAt
-    } = req.body;
-    const newEmployee= await Employee.create({
-       name,
-      email,
-      role,
-      sex,
-      status,
-      joinedAt,
-      user: req.user._id
-    });
-    res.status(201).json(newEmployee);
+        const {
+            name,
+            email,
+            role,
+            sex,
+            status,
+            joinedAt
+        } = req.body;
+        const newEmployee = await Employee.create({
+            name,
+            email,
+            role,
+            sex,
+            status,
+            joinedAt,
+            user: req.user._id
+        });
+        res.status(201).json(newEmployee);
 
-  } catch (err) {
-    res.status(500).json({ message: "Error creating project." });
-  }
+    } catch (err) {
+        res.status(500).json({ message: "Error creating project." });
+    }
 };
 
 // Get all employees

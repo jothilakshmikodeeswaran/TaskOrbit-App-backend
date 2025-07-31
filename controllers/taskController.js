@@ -7,7 +7,7 @@ export const createTask = async (req, res) => {
   try {
 
     const project = await Project.findById(req.params.projectId);
-     const assinename = await Task.findOne(req.params.name);
+    const assinename = await Task.findOne(req.params.name);
     if (!project) {
       return res.status(404).json({ message: 'Project not found.' });
     }

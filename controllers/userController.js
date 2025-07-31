@@ -32,18 +32,25 @@ export const loginUser = async (req, res) => {
         const { email, password } = req.body;
         const foundUser = await User.findOne({ email });
 
-        if (!foundUser) {
-            return res.status(400).json({ error: "User not found" });
+        if (!foundUser || !(await foundUser.isCorrectPassword(password))) {
+            return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        const isValid = await foundUser.isCorrectPassword(password);
+        // if (!foundUser) {
+        //     return res.status(400).json({ error: "User not found" });
+        // }
 
-        if (!isValid) {
-            return res.status(400).json({ error: "Incorrect password" });
-        }
+        // const isValid = await foundUser.isCorrectPassword(password);
+
+        // if (!isValid) {
+        //     return res.status(400).json({ error: "Incorrect password" });
+        // }
 
         const token = signToken(foundUser);
-        res.status(200).json({ token, user: foundUser });
+        res.status(200).json({
+            token, user: foundUser, username: foundUser.username,
+            email: foundUser.email, role: foundUser.role
+        });
     } catch (err) {
 
         if (err.name === "ValidationError") {
@@ -53,9 +60,6 @@ export const loginUser = async (req, res) => {
         }
         res.status(500).json({ error: err.message } || "Login failed !");
     }
-
-
-
     // const messages = Object.values(error.errors).map(e => e.message);
     //   return res.status(400).json({ errors: messages });
     //      const user = await User.findOne({ email: req.body.email });

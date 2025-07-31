@@ -11,8 +11,8 @@ const taskSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['To Do', 'In Progress', 'Done'],
-        default: 'To Do'
+        enum: ['To Do', 'In Progress', 'Done']
+       
     },
     project: {
         type: Schema.Types.ObjectId,
@@ -28,8 +28,8 @@ const taskSchema = new Schema({
     },
     priority: {
         type: String,
-        enum: ['high', 'low', 'medium'],
-        default: 'high'
+        enum: ['high', 'low', 'medium']
+        
     },
     comments:{
         type: String
