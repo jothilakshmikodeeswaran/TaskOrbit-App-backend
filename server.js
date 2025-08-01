@@ -15,18 +15,18 @@ const PORT = process.env.PORT || 3000;
 const PROD_URL = process.env.PROD_URL;
 
 // 1
-const whitelist = [PROD_URL];
-// 2
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-3
+// const whitelist = [PROD_URL];
+// // 2
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+
 
 app.use(cors());
 // app.use(
