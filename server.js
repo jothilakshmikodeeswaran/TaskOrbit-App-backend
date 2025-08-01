@@ -6,6 +6,7 @@ import usersRouter from "./routes/usersRoutes.js";
 import projectsRouter from "./routes/projectsRoutes.js";
 import tasksRouter from "./routes/tasksRoutes.js";
 import employesRoutes from "./routes/employesRoutes.js"
+import path from "path";
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/tasks", tasksRouter); 
 app.use("/api/employees", employesRoutes);
+app.use("/uploads", express.static(path.join(process.cwd(), "temp")));
 
 db.once("open", () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));

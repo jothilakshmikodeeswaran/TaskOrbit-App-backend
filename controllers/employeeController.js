@@ -9,7 +9,8 @@ export const createEmployee = async (req, res) => {
             role,
             sex,
             status,
-            joinedAt
+            joinedAt,
+            profilepic
         } = req.body;
         const newEmployee = await Employee.create({
             name,
@@ -18,6 +19,7 @@ export const createEmployee = async (req, res) => {
             sex,
             status,
             joinedAt,
+            profilepic,
             user: req.user._id
         });
         res.status(201).json(newEmployee);
